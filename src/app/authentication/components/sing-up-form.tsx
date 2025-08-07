@@ -67,14 +67,15 @@ const SignUpForm = () => {
           toast.success("Conta criada com sucesso!");
           router.push("/");
         },
-        onError: (error) => {
+        onError: (ctx) => {
           // NÃO FUNCIONANDO authClient.$ERROR_CODES.USER_ALREADY_EXISTS
-          if (error.error.code === "USER_ALREADY_EXISTS") {
-            form.setError("email", {
+          if (ctx.error.code === "USER_ALREADY_EXISTS") {
+            toast.error("Erro ao cadastrar.");
+            return form.setError("email", {
               message: "E-mail já cadastrado",
             });
           }
-          toast.error(error.error.message);
+          toast.error(ctx.error.message);
         },
       },
     });
