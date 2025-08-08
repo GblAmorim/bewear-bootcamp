@@ -3,6 +3,7 @@ import Image from "next/image";
 import CategorySelector from "@/components/common/category-selector";
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
+import PartnerList from "@/components/common/partner-list";
 import ProductList from "@/components/common/product-list";
 import { db } from "@/db";
 
@@ -19,6 +20,15 @@ const Home = async () => {
     },
   });
   const categories = await db.query.categoryTable.findMany({});
+  const partners: { image: string; name: string }[] = [
+    { image: "/logo-nike.png", name: "Nike" },
+    { image: "/logo-adidas.png", name: "Adidas" },
+    { image: "/logo-puma.png", name: "Puma" },
+    { image: "/logo-newbalance.png", name: "New Balance" },
+    { image: "/logo-converse.png", name: "Converse" },
+    { image: "/logo-polo.png", name: "Polo" },
+    { image: "/logo-zara.png", name: "Zara" },
+  ];
 
   return (
     <>
@@ -35,6 +45,8 @@ const Home = async () => {
             className="h-auto w-full"
           />
         </div>
+
+        <PartnerList partners={partners} title="Marcas parceiras" />
 
         <ProductList products={products} title="Mais vendidos" />
 
