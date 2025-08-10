@@ -90,10 +90,10 @@ export const categoryRelations = relations(categoryTable, ({ many }) => ({
 export const productTable = pgTable("product", {
   id: uuid().primaryKey().defaultRandom(),
   categoryId: uuid("category_id")
+    .notNull()
     .references(() => categoryTable.id, {
       onDelete: "set null",
-    })
-    .notNull(),
+    }),
   name: text().notNull(),
   slug: text().notNull().unique(),
   description: text().notNull(),
@@ -111,10 +111,10 @@ export const productRelations = relations(productTable, ({ one, many }) => ({
 export const productVariantTable = pgTable("product_variant", {
   id: uuid().primaryKey().defaultRandom(),
   productId: uuid("product_id")
+    .notNull()
     .references(() => productTable.id, {
       onDelete: "cascade",
-    })
-    .notNull(),
+    }),
   name: text().notNull(),
   slug: text().notNull().unique(),
   color: text().notNull(),
@@ -145,7 +145,7 @@ export const shippingAddressTable = pgTable("shipping_address", {
   city: text().notNull(),
   state: text().notNull(),
   neighborhood: text().notNull(),
-  zipCode: text("postal_code").notNull(),
+  zipCode: text("zip_code").notNull(),
   country: text().notNull(),
   phone: text().notNull(),
   email: text().notNull(),
