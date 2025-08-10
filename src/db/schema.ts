@@ -81,9 +81,11 @@ export const categoryRelations = relations(categoryTable, ({ many }) => ({
 
 export const productTable = pgTable("product", {
   id: uuid().primaryKey().defaultRandom(),
-  categoryId: uuid("category_id").references(() => categoryTable.id, {
-    onDelete: "set null",
-  }),
+  categoryId: uuid("category_id")
+    .references(() => categoryTable.id, {
+      onDelete: "set null",
+    })
+    .notNull(),
   name: text().notNull(),
   slug: text().notNull().unique(),
   description: text().notNull(),
@@ -100,9 +102,11 @@ export const productRelations = relations(productTable, ({ one, many }) => ({
 
 export const productVariantTable = pgTable("product_variant", {
   id: uuid().primaryKey().defaultRandom(),
-  productId: uuid("product_id").references(() => productTable.id, {
-    onDelete: "cascade",
-  }),
+  productId: uuid("product_id")
+    .references(() => productTable.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
   name: text().notNull(),
   slug: text().notNull().unique(),
   color: text().notNull(),
