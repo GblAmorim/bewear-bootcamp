@@ -36,9 +36,14 @@ export const getCart = async () => {
       })
       .returning();
     console.log("Não há carrinho, criando um novo");
-
-    return { ...newCart, items: [] };
+    return { ...newCart, items: [], totalPriceInCents: 0 };
   }
 
-  return cart;
+  return {
+    ...cart,
+    totalPriceInCents: cart.items.reduce(
+      (acc, item) => acc + item.productVariant.priceInCents * item.quantity,
+      0,
+    ),
+  };
 };
