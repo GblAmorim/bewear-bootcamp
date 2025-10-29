@@ -29,6 +29,12 @@ const FinishOrderButton = () => {
     const stripe = await loadStripe(
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
     );
+    if (!stripe) {
+      throw new Error("Stripe failed to load");
+    }
+    await stripe.redirectToCheckout({
+      sessionId: checkoutSession.id,
+    });
     setSuccessDialogIsOpen(true);
   };
   return (
@@ -56,7 +62,7 @@ const FinishOrderButton = () => {
           <DialogTitle className="mt-4 text-2xl">Pedido efetuado!</DialogTitle>
           <DialogDescription className="font-medium">
             Seu pedido foi efetuado com sucesso. Você pode acompanhar o status
-            na seção de "Meus Pedidos".
+            na seção de `Meus Pedidos`.
           </DialogDescription>
 
           <DialogFooter>
